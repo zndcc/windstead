@@ -5,15 +5,15 @@ require 'json'
 require 'yaml'
 
 VAGRANTFILE_API_VERSION ||= "2"
-confDir = $confDir ||= File.expand_path("vendor/laravel/homestead", File.dirname(__FILE__))
+confDir = $confDir ||= File.expand_path("vendor/laravel/winstead", File.dirname(__FILE__))
 
-homesteadYamlPath = File.expand_path("Homestead.yaml", File.dirname(__FILE__))
-homesteadJsonPath = File.expand_path("Homestead.json", File.dirname(__FILE__))
+winsteadYamlPath = File.expand_path("Windstead.yaml", File.dirname(__FILE__))
+winsteadJsonPath = File.expand_path("Windstead.json", File.dirname(__FILE__))
 afterScriptPath = "after.sh"
 customizationScriptPath = "user-customizations.sh"
 aliasesPath = "aliases"
 
-require File.expand_path(confDir + '/scripts/homestead.rb')
+require File.expand_path(confDir + '/scripts/Windstead.rb')
 
 Vagrant.require_version '>= 1.9.0'
 
@@ -25,15 +25,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         end
     end
 
-    if File.exist? homesteadYamlPath then
-        settings = YAML::load(File.read(homesteadYamlPath))
-    elsif File.exist? homesteadJsonPath then
-        settings = JSON.parse(File.read(homesteadJsonPath))
+    if File.exist? winsteadYamlPath then
+        settings = YAML::load(File.read(winsteadYamlPath))
+    elsif File.exist? winsteadJsonPath then
+        settings = JSON.parse(File.read(winsteadJsonPath))
     else
-        abort "Homestead settings file not found in " + File.dirname(__FILE__)
+        abort "Winstead settings file not found in " + File.dirname(__FILE__)
     end
 
-    Homestead.configure(config, settings)
+    Windstead.configure(config, settings)
 
     if File.exist? afterScriptPath then
         config.vm.provision "shell", path: afterScriptPath, privileged: false, keep_color: true
