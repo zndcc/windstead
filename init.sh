@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 if [[ -n "$1" ]]; then
-    cp -i resources/Winstead.json Winstead.json
+    cp -i resources/Windstead.json Windstead.json
 else
-    cp -i resources/Winstead.yaml Winstead.yaml
+    cp -i resources/Windstead.yaml Windstead.yaml
 fi
 
-echo "Winstead initialized!"
+echo "Windstead initialized!"

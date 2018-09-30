@@ -1,5 +1,5 @@
-# Main Winstead Class
-class Winstead
+# Main Windstead Class
+class Windstead
   def self.configure(config, settings)
     # Set The VM Provider
     ENV['VAGRANT_DEFAULT_PROVIDER'] = settings['provider'] ||= 'virtualbox'
@@ -11,10 +11,10 @@ class Winstead
     config.ssh.forward_agent = true
 
     # Configure The Box
-    config.vm.define settings['name'] ||= 'winstead-0'
-    config.vm.box = settings['box'] ||= 'zndcc/winstead'
+    config.vm.define settings['name'] ||= 'windstead-0'
+    config.vm.box = settings['box'] ||= 'mwrock/Windows2016'
     config.vm.box_version = settings['version'] ||= '>= 0.0.0'
-    config.vm.hostname = settings['hostname'] ||= 'winstead'
+    config.vm.hostname = settings['hostname'] ||= 'windstead'
 
     # Configure A Private Network IP
     if settings['ip'] != 'autonetwork'
@@ -32,7 +32,7 @@ class Winstead
 
     # Configure A Few VirtualBox Settings
     config.vm.provider 'virtualbox' do |vb|
-      vb.name = settings['name'] ||= 'winstead-0'
+      vb.name = settings['name'] ||= 'windstead-0'
       vb.customize ['modifyvm', :id, '--memory', settings['memory'] ||= '2048']
       vb.customize ['modifyvm', :id, '--cpus', settings['cpus'] ||= '1']
       vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
@@ -51,7 +51,7 @@ class Winstead
     # Configure A Few VMware Settings
     ['vmware_fusion', 'vmware_workstation'].each do |vmware|
       config.vm.provider vmware do |v|
-        v.vmx['displayName'] = settings['name'] ||= 'winstead-0'
+        v.vmx['displayName'] = settings['name'] ||= 'windstead-0'
         v.vmx['memsize'] = settings['memory'] ||= 2048
         v.vmx['numvcpus'] = settings['cpus'] ||= 1
         v.vmx['guestOS'] = 'ubuntu-64'
@@ -63,7 +63,7 @@ class Winstead
 
     # Configure A Few Hyper-V Settings
     config.vm.provider "hyperv" do |h, override|
-      h.vmname = settings['names'] ||= 'winstead-0'
+      h.vmname = settings['names'] ||= 'windstead-0'
       h.cpus = settings['cpus'] ||= 1
       h.memory = settings['memory'] ||= 2048
       h.linked_clone = true
@@ -75,7 +75,7 @@ class Winstead
 
     # Configure A Few Parallels Settings
     config.vm.provider 'parallels' do |v|
-      v.name = settings['name'] ||= 'winstead-0'
+      v.name = settings['name'] ||= 'windstead-0'
       v.update_guest_tools = settings['update_parallels_tools'] ||= false
       v.memory = settings['memory'] ||= 2048
       v.cpus = settings['cpus'] ||= 1
@@ -132,7 +132,7 @@ class Winstead
     # Copy The SSH Private Keys To The Box
     if settings.include? 'keys'
       if settings['keys'].to_s.length.zero?
-        puts 'Check your Winstead.yaml file, you have no private key(s) specified.'
+        puts 'Check your Windstead.yaml file, you have no private key(s) specified.'
         exit
       end
       settings['keys'].each do |key|
@@ -143,7 +143,7 @@ class Winstead
             s.args = [File.read(File.expand_path(key)), key.split('/').last]
           end
         else
-          puts 'Check your Winstead.yaml file, the path to your private key does not exist.'
+          puts 'Check your Windstead.yaml file, the path to your private key does not exist.'
           exit
         end
       end
@@ -189,9 +189,10 @@ class Winstead
           end
         else
           config.vm.provision 'shell' do |s|
-            s.inline = ">&2 echo \"Unable to mount one of your folders. Please check your folders in Winstead.yaml\""
+            s.inline = ">&2 echo \"Unable to mount one of your folders. Please check your folders in Windstead.yaml\""
           end
         end
       end
     end
+  end
 end
